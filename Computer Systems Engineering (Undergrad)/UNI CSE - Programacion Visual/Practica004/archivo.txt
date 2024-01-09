@@ -1,0 +1,5 @@
+Matrícula: 998822
+Nombre: Hermenegildo Mateos
+Edad: 18
+Sexo: Indefinido
+Estado Civil: Casado

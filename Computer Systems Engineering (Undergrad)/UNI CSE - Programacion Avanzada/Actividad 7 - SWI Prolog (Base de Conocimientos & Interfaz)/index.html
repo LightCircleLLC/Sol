@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Selección de Cursos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tau-prolog/modules/core.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/tau-prolog/modules/lists.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#0ea5e9] via-[#6366f1] to-[#9333ea] dark:from-[#0b1220] dark:via-[#0f172a] dark:to-[#111827] text-gray-900 dark:text-gray-100 transition-colors duration-500">
+
+  <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="relative w-full max-w-3xl">
+      <div class="absolute -inset-2 rounded-3xl bg-white/10 dark:bg-white/5 blur-2xl"></div>
+
+      <div class="relative bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl shadow-2xl rounded-3xl p-8 md:p-10 border border-white/40 dark:border-gray-700 transition">
+        <div class="flex items-start justify-between mb-6">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-9 w-9 text-indigo-600 dark:text-indigo-400" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 3l8 4-8 4-8-4 8-4zm0 7l8-4v10l-8 4-8-4V6l8 4z"/>
+            </svg>
+            <div>
+              <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Sistema de selección de cursos
+              </h1>
+              <p class="mt-2 text-gray-600 dark:text-gray-300">
+                Consulta cursos disponibles y tu historial académico.
+              </p>
+            </div>
+          </div>
+          <button id="toggleDark"
+            class="ml-4 px-3 py-2 rounded-xl bg-gray-100/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow hover:scale-[1.02] active:scale-[0.99] transition"
+            title="Alternar modo claro/oscuro">
+            🌙 / ☀️
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-6">
+          <div class="md:col-span-2">
+            <label for="alumno" class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              Selecciona un alumno
+            </label>
+            <select id="alumno"
+              class="w-full px-4 py-2.5 rounded-xl border border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-800/80 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+              <option value="">-- Selecciona --</option>
+              <option value="juan">Juan</option>
+              <option value="maria">María</option>
+              <option value="carlos">Carlos</option>
+              <option value="ana">Ana</option>
+              <option value="luis">Luis</option>
+            </select>
+          </div>
+
+          <button
+            onclick="consultar()"
+            class="w-full md:w-auto px-5 py-3 rounded-xl bg-indigo-600 text-white font-semibold shadow-lg hover:bg-indigo-700 hover:shadow-xl transition flex items-center justify-center gap-2"
+            title="Consultar">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M10 2a8 8 0 105.293 14.293l4.707 4.707 1.414-1.414-4.707-4.707A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
+            </svg>
+            Consultar
+          </button>
+        </div>
+
+        <div id="resultado" class="space-y-8">
+          <section class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-700 dark:text-indigo-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M4 4h16v2H4V4zm0 4h10v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z"/>
+                </svg>
+                <h2 class="text-xl font-semibold text-indigo-700 dark:text-indigo-300">Cursos disponibles</h2>
+              </div>
+              <span id="badgeDisponibles" class="text-xs px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                0 cursos
+              </span>
+            </div>
+            <div id="listaDisponibles" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+            <p id="vacioDisponibles" class="hidden text-gray-600 dark:text-gray-300 text-sm">
+              No hay cursos disponibles para inscribir.
+            </p>
+          </section>
+
+          <section class="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/60 p-6">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-700 dark:text-emerald-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M6 2h12v4H6V2zm-2 6h16v14H4V8zm4 2v2h8v-2H8zm0 4v2h6v-2H8z"/>
+                </svg>
+                <h2 class="text-xl font-semibold text-emerald-700 dark:text-emerald-300">Historial académico</h2>
+              </div>
+              <span id="badgeHistorial" class="text-xs px-2 py-1 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                0 cursos
+              </span>
+            </div>
+
+            <!-- Resumen de créditos aprobados -->
+            <div id="resumenCreditos"
+                 class="mb-4 rounded-lg p-3 bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-800 text-sm text-emerald-800 dark:text-emerald-200 hidden">
+              <span class="font-medium">Créditos totales aprobados:</span>
+              <span id="totalCreditos" class="ml-2 font-semibold">0</span>
+            </div>
+
+            <div id="listaHistorial" class="space-y-3"></div>
+            <p id="vacioHistorial" class="hidden text-gray-600 dark:text-gray-300 text-sm">
+              Este alumno aún no tiene registros.
+            </p>
+          </section>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // === Tailwind animaciones (simple extend) ===
+    tailwind.config = {
+      theme: {
+        extend: {
+          animation: { fadeIn: "fadeIn 0.6s ease-out forwards" },
+          keyframes: {
+            fadeIn: { "0%": { opacity: 0, transform: "translateY(8px)" }, "100%": { opacity: 1, transform: "translateY(0)" } }
+          }
+        }
+      }
+    };
+
+    // === Modo oscuro (versión previa: usar localStorage.theme === "dark") ===
+    const toggleDark = document.getElementById("toggleDark");
+    if (localStorage.theme === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+    toggleDark.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      if (document.documentElement.classList.contains("dark")) {
+        localStorage.theme = "dark";
+      } else {
+        localStorage.theme = "light";
+      }
+    });
+
+    // === PROLOG: dos sesiones independientes ===
+    const sessionCursos = pl.create(1000);
+    const sessionHistorial = pl.create(1000);
+
+    const program = `
+      curso(matematicas1, 10).
+      curso(matematicas2, 10).
+      curso(programacion1, 8).
+      curso(programacion2, 8).
+      curso(estructuras, 8).
+      curso(basesdedatos, 8).
+      curso(redes, 7).
+      curso(sistemasoperativos, 9).
+      curso(inteligenciaartificial, 9).
+      curso(compiladores, 9).
+
+      prerequisito(matematicas2, matematicas1).
+      prerequisito(programacion2, programacion1).
+      prerequisito(estructuras, programacion2).
+      prerequisito(basesdedatos, estructuras).
+      prerequisito(redes, programacion2).
+      prerequisito(sistemasoperativos, programacion2).
+      prerequisito(inteligenciaartificial, matematicas2).
+      prerequisito(inteligenciaartificial, programacion2).
+      prerequisito(compiladores, estructuras).
+      prerequisito(compiladores, sistemasoperativos).
+
+      aprobado(juan, matematicas1, 85).
+      aprobado(juan, programacion1, 72).
+
+      aprobado(maria, matematicas1, 90).
+      aprobado(maria, matematicas2, 95).
+      aprobado(maria, programacion1, 88).
+      aprobado(maria, programacion2, 70).
+
+      aprobado(carlos, matematicas1, 80).
+      aprobado(carlos, programacion1, 65).
+      aprobado(carlos, programacion2, 75).
+      aprobado(carlos, estructuras, 83).
+      aprobado(carlos, basesdedatos, 78).
+
+      aprobado(ana, matematicas1, 100).
+      aprobado(ana, matematicas2, 98).
+      aprobado(ana, programacion1, 92).
+      aprobado(ana, programacion2, 85).
+      aprobado(ana, estructuras, 88).
+      aprobado(ana, sistemasoperativos, 70).
+
+      aprobado(luis, matematicas1, 95).
+      aprobado(luis, matematicas2, 87).
+      aprobado(luis, programacion1, 90).
+      aprobado(luis, programacion2, 91).
+      aprobado(luis, estructuras, 89).
+      aprobado(luis, basesdedatos, 93).
+      aprobado(luis, redes, 85).
+      aprobado(luis, sistemasoperativos, 84).
+
+      curso_aprobado(Alumno, Curso) :-
+        aprobado(Alumno, Curso, Cal),
+        Cal >= 70.
+
+      puede_inscribir(Alumno, Curso) :-
+        curso(Curso,_),
+        \\+ curso_aprobado(Alumno, Curso),
+        forall(prerequisito(Curso, Req), curso_aprobado(Alumno, Req)).
+    `;
+
+    sessionCursos.consult(program);
+    sessionHistorial.consult(program);
+
+    // === Map de créditos (se llena al iniciar) ===
+    const creditsMap = {}; // { cursoId: creditos }
+    function buildCreditsMap(cb) {
+      let count = 0;
+      sessionCursos.query("curso(X,Y).");
+      sessionCursos.answers(a => {
+        if (pl.type.is_substitution(a)) {
+          const id = a.lookup("X").id;
+          const term = a.lookup("Y");
+          const val = term.value !== undefined ? term.value : Number(term.id);
+          creditsMap[id] = val;
+          count++;
+        }
+      }, 1000);
+      setTimeout(() => { if (cb) cb(); }, 80);
+    }
+
+    // === UI refs ===
+    const badgeDisponibles = document.getElementById("badgeDisponibles");
+    const listaDisponibles = document.getElementById("listaDisponibles");
+    const vacioDisponibles = document.getElementById("vacioDisponibles");
+
+    const badgeHistorial = document.getElementById("badgeHistorial");
+    const listaHistorial = document.getElementById("listaHistorial");
+    const vacioHistorial = document.getElementById("vacioHistorial");
+    const resumenCreditos = document.getElementById("resumenCreditos");
+    const totalCreditosEl = document.getElementById("totalCreditos");
+
+    function resetUI() {
+      listaDisponibles.innerHTML = "";
+      listaHistorial.innerHTML = "";
+      vacioDisponibles.classList.add("hidden");
+      vacioHistorial.classList.add("hidden");
+      badgeDisponibles.textContent = "0 cursos";
+      badgeHistorial.textContent = "0 cursos";
+      resumenCreditos.classList.add("hidden");
+      totalCreditosEl.textContent = "0";
+    }
+
+    // Llamar buildCreditsMap al arrancar
+    buildCreditsMap();
+
+    // === Consultas ===
+    function consultar() {
+      const alumno = document.getElementById("alumno").value;
+      resetUI();
+
+      if (!alumno) {
+        vacioDisponibles.classList.remove("hidden");
+        vacioDisponibles.textContent = "Selecciona un alumno.";
+        vacioHistorial.classList.remove("hidden");
+        vacioHistorial.textContent = "Selecciona un alumno.";
+        return;
+      }
+
+      if (Object.keys(creditsMap).length === 0) {
+        buildCreditsMap(() => { consultarCursos(alumno); consultarHistorial(alumno); });
+      } else {
+        consultarCursos(alumno);
+        consultarHistorial(alumno);
+      }
+    }
+
+    function consultarCursos(alumno) {
+      let count = 0;
+      sessionCursos.query("puede_inscribir(" + alumno + ", X).");
+      sessionCursos.answers(ans => {
+        if (pl.type.is_substitution(ans)) {
+          const curso = ans.lookup("X").id;
+          count++;
+          listaDisponibles.innerHTML += renderCursoDisponible(curso);
+        }
+      }, 1000);
+
+      setTimeout(() => {
+        badgeDisponibles.textContent = `${count} ${count === 1 ? "curso" : "cursos"}`;
+        if (count === 0) {
+          vacioDisponibles.classList.remove("hidden");
+          vacioDisponibles.textContent = "No hay cursos disponibles para inscribir.";
+        }
+      }, 250);
+    }
+
+    function consultarHistorial(alumno) {
+      let count = 0;
+      let totalCred = 0;
+      sessionHistorial.query("aprobado(" + alumno + ", Curso, Cal).");
+      sessionHistorial.answers(ans => {
+        if (pl.type.is_substitution(ans)) {
+          const curso = ans.lookup("Curso").id;
+          const calTerm = ans.lookup("Cal");
+          const cal = calTerm.value !== undefined ? calTerm.value : Number(calTerm.id);
+          count++;
+          listaHistorial.innerHTML += renderHistorialItem(curso, cal);
+          if (cal >= 70) {
+            const c = creditsMap[curso] !== undefined ? creditsMap[curso] : 0;
+            totalCred += Number(c);
+          }
+        }
+      }, 1000);
+
+      setTimeout(() => {
+        badgeHistorial.textContent = `${count} ${count === 1 ? "curso" : "cursos"}`;
+        if (count === 0) {
+          vacioHistorial.classList.remove("hidden");
+          vacioHistorial.textContent = "Este alumno aún no tiene registros.";
+          resumenCreditos.classList.add("hidden");
+        } else {
+          totalCreditosEl.textContent = totalCred;
+          resumenCreditos.classList.remove("hidden");
+        }
+      }, 300);
+    }
+
+    // === Render helpers con icono por curso y créditos ===
+    function renderCursoDisponible(curso) {
+      const pretty = prettifyCurso(curso);
+      const credits = creditsMap[curso] !== undefined ? creditsMap[curso] : "-";
+      const iconCurso = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-600 dark:text-indigo-300 mr-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4 4h16v2H4V4zm0 4h10v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z"/>
+        </svg>
+      `;
+      return `
+        <div class="group animate-fadeIn rounded-xl border border-indigo-200/60 dark:border-indigo-800/60 bg-indigo-50/60 dark:bg-indigo-900/20 p-4 shadow-sm hover:shadow-md hover:border-indigo-300 dark:hover:border-indigo-700 transition">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center">
+              ${iconCurso}
+              <div>
+                <p class="font-semibold text-indigo-800 dark:text-indigo-200">${pretty}</p>
+                <p class="text-sm text-indigo-700/80 dark:text-indigo-300/80">Créditos: <span class="font-medium">${credits}</span></p>
+              </div>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+              Disponible
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderHistorialItem(curso, cal) {
+      const aprobado = cal >= 70;
+      const pretty = prettifyCurso(curso);
+      const credits = creditsMap[curso] !== undefined ? creditsMap[curso] : "-";
+      const chipBg = aprobado
+        ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300 border-emerald-200 dark:border-emerald-800"
+        : "bg-rose-100 text-rose-700 dark:bg-rose-900/40 dark:text-rose-300 border-rose-200 dark:border-rose-800";
+      const chipText = aprobado ? "Aprobado" : "Reprobado";
+
+      const iconState = aprobado
+        ? `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17l-3.88-3.88-1.41 1.41L9 19 20.29 7.71l-1.41-1.41z"/></svg>`
+        : `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1 inline" viewBox="0 0 24 24" fill="currentColor"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+
+      const iconCurso = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-700 dark:text-gray-300 mr-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M4 4h16v2H4V4zm0 4h10v2H4V8zm0 4h16v2H4v-2zm0 4h10v2H4v-2z"/>
+        </svg>
+      `;
+
+      return `
+        <div class="animate-fadeIn rounded-xl border border-gray-200 dark:border-gray-700 bg-white/60 dark:bg-gray-800/50 p-4 shadow-sm">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="font-semibold text-gray-900 dark:text-gray-100 flex items-center">${iconCurso}${pretty}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-400">
+                Calificación: <span class="font-medium">${cal}</span> · Créditos: <span class="font-medium">${credits}</span>
+              </p>
+            </div>
+            <span class="text-xs px-2 py-1 rounded-full border ${chipBg}">
+              ${iconState}${chipText}
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    // Convierte identificadores a nombres legibles
+    function prettifyCurso(id) {
+      const map = {
+        matematicas1: "Matemáticas I",
+        matematicas2: "Matemáticas II",
+        programacion1: "Programación I",
+        programacion2: "Programación II",
+        estructuras: "Estructuras de Datos",
+        basesdedatos: "Bases de Datos",
+        redes: "Redes",
+        sistemasoperativos: "Sistemas Operativos",
+        inteligenciaartificial: "Inteligencia Artificial",
+        compiladores: "Compiladores",
+      };
+      return map[id] || id;
+    }
+  </script>
+</body>
+</html>

@@ -29,11 +29,6 @@
               </p>
             </div>
           </div>
-          <button id="toggleDark"
-            class="ml-4 px-3 py-2 rounded-xl bg-gray-100/80 dark:bg-gray-800/80 text-gray-800 dark:text-gray-200 border border-gray-200 dark:border-gray-700 shadow hover:scale-[1.02] active:scale-[0.99] transition"
-            title="Alternar modo claro/oscuro">
-            🌙 / ☀️
-          </button>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end mb-6">
@@ -125,20 +120,6 @@
         }
       }
     };
-
-    // === Modo oscuro (versión previa: usar localStorage.theme === "dark") ===
-    const toggleDark = document.getElementById("toggleDark");
-    if (localStorage.theme === "dark") {
-      document.documentElement.classList.add("dark");
-    }
-    toggleDark.addEventListener("click", () => {
-      document.documentElement.classList.toggle("dark");
-      if (document.documentElement.classList.contains("dark")) {
-        localStorage.theme = "dark";
-      } else {
-        localStorage.theme = "light";
-      }
-    });
 
     // === PROLOG: dos sesiones independientes ===
     const sessionCursos = pl.create(1000);

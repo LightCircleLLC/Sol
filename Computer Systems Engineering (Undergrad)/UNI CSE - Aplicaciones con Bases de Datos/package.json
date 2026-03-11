@@ -1,0 +1,13 @@
+{
+  "name": "my-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type":"module",
+  "scripts": {
+    "dev": "node index.js",
+    "deve": "node --env-file=.env index.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}

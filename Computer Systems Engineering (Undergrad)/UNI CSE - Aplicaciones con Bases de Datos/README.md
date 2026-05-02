@@ -8,10 +8,10 @@ API REST desarrollada con **Node.js + Express + PostgreSQL** como capa de persis
 
 | Campo      | Detalle                                      |
 |------------|----------------------------------------------|
-| Materia    | Sistemas Cliente-Servidor 1 / Bases de Datos |
-| Profesor   | —                                            |
-| Integrante | —                                            |
-| Matrícula  | —                                            |
+| Materia    | Aplicaciones con Bases de Datos              |
+| Profesor   | Jesus Alejandro Flores Hernandez             |
+| Integrante | Jorge Fernández Reyna                        |
+| Matrícula  | 144481                                       |
 | Repositorio | [GitHub](#)                                 |
 
 ---

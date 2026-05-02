@@ -4,6 +4,30 @@ API REST desarrollada con **Node.js + Express + PostgreSQL** como capa de persis
 
 ---
 
+## Índice
+
+1. [Datos del Proyecto](#datos-del-proyecto)
+2. [Descripción](#descripción)
+3. [Requisitos](#requisitos)
+4. [Instalación](#instalación)
+5. [Estructura del Proyecto](#estructura-del-proyecto)
+6. [Scripts Disponibles](#scripts-disponibles)
+7. [Variables de Entorno](#variables-de-entorno)
+8. [Endpoints de la API](#endpoints-de-la-api)
+   - 8.1 [Servidores Discord](#servidores-discord----apiservidores)
+   - 8.2 [Canales Discord](#canales-discord----apicanales)
+   - 8.3 [Webhooks](#webhooks----apiwebhooks)
+   - 8.4 [Fuentes de Contenido](#fuentes-de-contenido----apifuentes)
+   - 8.5 [Suscripciones](#suscripciones----apisuscripciones)
+   - 8.6 [Etiquetas](#etiquetas----apietiquetas)
+   - 8.7 [Publicaciones](#publicaciones----apipublicaciones)
+   - 8.8 [Reglas de Filtro](#reglas-de-filtro----apireglas)
+   - 8.9 [Entregas](#entregas----apientregas)
+9. [Tecnologías Utilizadas](#tecnologías-utilizadas)
+10. [Base de Datos](#base-de-datos)
+
+---
+
 ## Datos del Proyecto
 
 | Campo      | Detalle                                      |

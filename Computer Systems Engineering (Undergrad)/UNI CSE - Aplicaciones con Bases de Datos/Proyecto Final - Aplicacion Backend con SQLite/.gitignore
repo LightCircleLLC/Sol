@@ -1,0 +1,36 @@
+# Dependencias
+node_modules/
+
+yarn.lock
+pnpm-lock.yaml
+
+# Variables de entorno y configuraciones sensibles
+*.pem
+*.key
+*.crt
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Archivos de salida de compilación
+dist/
+build/
+out/
+
+# Directorios de sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Base de datos SQLite local (no subir al repo)
+*.db
+*.sqlite
+*.sqlite3

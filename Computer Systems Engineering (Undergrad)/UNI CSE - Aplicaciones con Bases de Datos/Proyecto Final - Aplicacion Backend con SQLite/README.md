@@ -24,11 +24,11 @@ API REST desarrollada con **Node.js + Express + Better-SQLite3** como capa de pe
 | Campo       | Detalle                                   |
 |-------------|-------------------------------------------|
 | Materia     | Sistemas Cliente-Servidor 1               |
-| Profesor    | —                                         |
-| Integrante  | —                                         |
-| Matrícula   | —                                         |
-| Carrera     | —                                         |
-| Rol         | Desarrollador Full-Stack                  |
+| Profesor    | Jesus Alejandro Flores Hernandez          |
+| Integrante  | Jorge Fernandez Reyna                     |
+| Matrícula   | 144481                                    |
+| Carrera     | Ingenieria en Sistemas Computacionales    |
+| Repositorio | [GitHub](#)                               |
 
 ---
 

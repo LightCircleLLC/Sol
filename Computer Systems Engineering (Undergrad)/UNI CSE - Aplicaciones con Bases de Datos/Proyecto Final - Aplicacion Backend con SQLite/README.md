@@ -43,7 +43,7 @@ Esta API REST gestiona la capa de persistencia del sistema: servidores Discord, 
 
 ## Requisitos Previos
 
-- **Node.js** v24.16.0 LTS (requerido para `--env-file` & instalacion de dependencias)
+- **Node.js** v24.16.0 LTS (requerido para `--env-file` & instalación de dependencias)
 - **npm** 11.13.0
 - Sistema operativo: Windows 11
 

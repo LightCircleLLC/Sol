@@ -47,6 +47,8 @@ Esta API REST gestiona la capa de persistencia del sistema: servidores Discord, 
 - **npm** 11.13.0
 - Sistema operativo: Windows 11
 
+> **Importante:** Este proyecto ha sido desarrollado y probado utilizando Node.js v24.16.0 LTS y npm v11.13.0. El uso de versiones diferentes puede provocar errores durante la instalación de dependencias o al ejecutar el servidor. Para evitar problemas de compatibilidad, se recomienda utilizar exactamente las versiones indicadas.
+
 ---
 
 ## Instalación y Ejecución

@@ -55,6 +55,8 @@ Esta API REST gestiona la capa de persistencia del sistema: servidores Discord, 
 
 ### 1. Clonar el repositorio
 
+Este proyecto forma parte de un repositorio más grande. Para descargar únicamente los archivos necesarios, utilice **Git Sparse Checkout**:
+
 ```bash
 git clone --filter=blob:none --no-checkout https://github.com/LightCircleLLC/Sol.git
 cd Sol
@@ -66,7 +68,16 @@ git sparse-checkout set "Computer Systems Engineering (Undergrad)/UNI CSE - Apli
 git checkout main
 ```
 
-> **Nota:** Al clonar el repositorio con este procedimiento tendrá que navegar hasta la siguiente ruta: "Sol/Computer Systems Engineering (Undergrad)/UNI CSE - Aplicaciones con Bases de Datos/Proyecto Final - Aplicacion Backend con SQLite". En la carpeta "/Proyecto Final - Aplicacion Backend con SQLite" es donde se encuentran todos los archivos necesarios del proyecto.
+Una vez completado el proceso, los archivos del proyecto estarán disponibles en la siguiente ruta:
+
+```text
+Sol/
+└── Computer Systems Engineering (Undergrad)/
+    └── UNI CSE - Aplicaciones con Bases de Datos/
+        └── Proyecto Final - Aplicacion Backend con SQLite/
+```
+
+Todos los comandos y procedimientos descritos en este documento deben ejecutarse desde la carpeta **`Proyecto Final - Aplicacion Backend con SQLite`**.
 
 ### 2. Instalar dependencias
 
